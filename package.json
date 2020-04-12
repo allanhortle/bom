@@ -1,6 +1,6 @@
 {
-  "name": "bom",
-  "version": "1.0.0",
+  "name": "bom-cli",
+  "version": "0.0.0",
   "main": "index.js",
   "repository": "git@github.com:allanhortle/bom.git",
   "author": "Allan Hortle <allanhortle@gmail.com>",

@@ -101,10 +101,10 @@ function forecastTable(data: Array<DailyForecast>): string {
 
 }
 
-export default async function weather(args: Args) {
-    const oo = await observations(args.station);
-    const ff: Array<DailyForecast> = await forecast(args.station);
-    const tt: Array<HourlyForecast> = await forecast(args.station, '3-hourly');
+export default async function weather(id) {
+    const oo = await observations(id);
+    const ff: Array<DailyForecast> = await forecast(id);
+    const tt: Array<HourlyForecast> = await forecast(id, '3-hourly');
     const {station, wind, temp, temp_feels_like, rain_since9am, humidity} = oo;
     const today = ff[0];
 

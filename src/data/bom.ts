@@ -14,3 +14,7 @@ export function forecast(id: string, type: 'daily' | '3-hourly' = 'daily'): Prom
     const location = `https://api.weather.bom.gov.au/v1/locations/${id}/forecasts/${type}`;
     return requestHandler(axios.get(location));
 }
+
+export function search(search: string): Promise<any> {
+    return requestHandler(axios.get(`https://api.weather.bom.gov.au/v1/locations?search=${search}`));
+}

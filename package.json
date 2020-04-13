@@ -10,6 +10,7 @@
   },
   "scripts": {
     "watch": "nodemon --watch 'src/**/*.ts' --exec 'yarn build'",
+    "prepublishOnly": "yarn build",
     "build": "tsc -p ."
   },
   "devDependencies": {

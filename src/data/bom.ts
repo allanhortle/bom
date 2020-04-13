@@ -2,7 +2,10 @@ import axios from 'axios';
 
 const requestHandler = (request: Promise<any>) => {
     return request
-        .then(ii => ii.data.data)
+        .then(ii => Promise.resolve({
+            ...ii.data.data,
+            metadata: ii.data.metadata
+        }))
         .catch(e => console.error(e.message));
 }
 

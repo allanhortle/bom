@@ -105,7 +105,7 @@ export default async function weather(id) {
     const oo = await observations(id);
     const ff: Array<DailyForecast> = await forecast(id);
     const tt: Array<HourlyForecast> = await forecast(id, '3-hourly');
-    const {station, wind, temp, temp_feels_like, rain_since9am, humidity} = oo;
+    const {station, wind, temp, temp_feels_like, rain_since9am, humidity, metadata} = oo;
     const today = ff[0];
 
     const stats = new List({autoAlign: true}).d([
@@ -117,9 +117,10 @@ export default async function weather(id) {
         [`Wind:`, `${wind.speed_kilometre}km/h ${wind.direction}`],
     ]).toString();
 
+
     console.log([
         '',
-        underline.bold(station.name),
+        underline.bold(`${station.name} ${format('h:mma')(metadata.issue_time)}`),
         '',
         today.extended_text.split('. ').map((ii: string) => '* ' + ii).join('\n'),
         '',

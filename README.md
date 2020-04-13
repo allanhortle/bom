@@ -1,5 +1,10 @@
 # bom cli
 
+## Install 
+```
+npm install -g bom-cli
+```
+
 ```
 Usage: bom [options] [search]
 

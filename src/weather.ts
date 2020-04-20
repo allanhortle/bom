@@ -124,7 +124,7 @@ export default async function weather(id) {
     const oo = await observations(id);
     const ff: Array<DailyForecast> = await forecast(id);
     const tt: Array<HourlyForecast> = await forecast(id, '3-hourly');
-    const {station, wind, temp, temp_feels_like, rain_since9am, humidity, metadata} = oo;
+    const {station, wind, temp, temp_feels_like, rain_since_9am, humidity, metadata} = oo;
     const today = ff[0];
 
     const stats = new List({autoAlign: true}).d([
@@ -132,7 +132,7 @@ export default async function weather(id) {
         [`${today.now.later_label}:`, `${celcius(today.now.temp_later)}`],
         [`Temp:`, `${celcius(temp)} ${temp_feels_like ? `(${celcius(temp_feels_like)})` : ''}`],
         [`Humidity:`, `${humidity || 0}%`],
-        [`Rain:`, `${rain_since9am || 0}mm`],
+        [`Rain:`, `${rain_since_9am || 0}mm`],
         [`Wind:`, printWind(wind)]
     ]).toString();
 

@@ -1,15 +1,15 @@
-import {observations, forecast} from './data/bom';
+import {observations, forecastDaily} from './data/bom';
 import {format} from 'stringdate';
 
 export default async function weather(id: string, print: string) {
-    const oo = await observations(id);
-    const ff = await forecast(id);
-    const {metadata, station, wind, temp, temp_feels_like, rain_since9am, humidity} = oo;
+    const {data: oo, metadata} = await observations(id);
+    const {data: ff} = await forecastDaily(id);
+    const {station, wind, temp, temp_feels_like, rain_since_9am, humidity} = oo;
 
     const matches = new Map();
     matches.set('%t', temp);
     matches.set('%y', temp_feels_like);
-    matches.set('%r', rain_since9am || 0);
+    matches.set('%r', rain_since_9am || 0);
     matches.set('%w', wind.speed_kilometre);
     matches.set('%d', wind.direction);
     matches.set('%h', humidity);

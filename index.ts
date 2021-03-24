@@ -2,47 +2,45 @@
 import {program} from 'commander';
 import pkg from './package.json';
 import weather from './src/weather';
+import forecast from './src/forecast';
 import print from './src/print';
 import {search} from './src/data/bom';
-
-// %t temp
-// %y temp feels like
-// %r rain since 9
-// %h humidity
-// %w wind speed
-// %d wind direction
-
-// %F forecast
-// %f forecast short
-// %u uv
-// %x fire danger
-// %s sunrise
-// %S sunset
-// %- min
-// %+ max
-// %R rain 
-
-// %i issued at
 
 program
     .version(pkg.version)
     .description('Get current the current weather and forecast from the BOM')
     .option('-p, --print <value>', 'use escape characters to print specific metrics')
+    .option('-f, --forecast', 'use escape characters to print specific metrics')
     .option('-i, --id <value>', 'use a BOM station id')
-    .arguments('[search]')
-    .action(async (query, env) => {
+    .arguments('<search>')
+    .action(async (city, env) => {
         let id;
-        if(query) {
-            let results = await search(query);
-            id = results[0].geohash.slice(0, -1);
-        }
-        if(env.id) id = env.id;
-
-
+        let command = 'today';
         try {
-            return (env.print) ? print(id, env.print) : weather(id);
+            if (env.print) command = 'print';
+            if (env.forecast) command = 'forecast';
+            if (env.id) id = env.id;
+            if (search) {
+                let results = await search(city);
+                id = results[0]?.geohash?.slice(0, -1);
+            }
+
+            switch (command) {
+                case 'forecast':
+                    return await forecast(id);
+
+                case 'print':
+                    return await print(id, env.print);
+
+                case 'today':
+                default:
+                    return await weather(id);
+            }
         } catch (e) {
-            console.error(e);
+            if (e?.response?.status === 400) {
+                return console.log(`Error: Weather station ${id} not found`);
+            }
+            return console.log(`Error: ${e.message}`);
         }
     });
 
